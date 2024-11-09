@@ -12,7 +12,6 @@ const PORT = process.env.PORT || 3000;
 const apiKey = process.env.apiKey;
 
 app.use(express.json());
-
 app.use(express.static(path.join(__dirname)));
 
 app.get('/', (req, res) => {

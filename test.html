@@ -57,26 +57,21 @@
     </div>
 
     <script>
-//        const apiKey = 'f5f69bfaf277050667fd882a1bae55f31926e65bb955f696e7b149401ab825b4'
-        const apiKey = process.env.apiKey;
-
-        let query = '';
         const searchButton = document.getElementById('search-button');
-        const inputText = document.getElementById('input')
+        const inputText = document.getElementById('input');
 
-
-        searchButton.addEventListener('click', function(event) {
+        searchButton.addEventListener('click', function() {
             const query = inputText.value;
             
             if (query === '') {
-                alert('Please fill out the search box')
+                alert('Please fill out the search box');
             } else {
-                fetch(`http://localhost:3000/search?q=${encodeURIComponent(query)}`)
+                fetch(`/search?q=${encodeURIComponent(query)}`)
                     .then(response => response.json())
                     .then(data => {
                         const organicResults = data.organic_results;        
                         
-                        fetch('http://localhost:3000/save', {
+                        fetch('/save', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -87,15 +82,13 @@
                         .then(saveResponse => {
                             alert(saveResponse.message);
                         })
-                        .catch(error => console.error('Error with saving file', error));
+                        .catch(error => console.error('Error with saving file:', error));
                     })
                     .catch(error => console.error('Error:', error));
                 
                 inputText.value = '';
             }
         });
-        
-
     </script>
 </body>
 </html>
