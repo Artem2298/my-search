@@ -57,7 +57,9 @@
     </div>
 
     <script>
-        const apiKey = 'f5f69bfaf277050667fd882a1bae55f31926e65bb955f696e7b149401ab825b4'
+//        const apiKey = 'f5f69bfaf277050667fd882a1bae55f31926e65bb955f696e7b149401ab825b4'
+        const apiKey = process.env.apiKey;
+
         let query = '';
         const searchButton = document.getElementById('search-button');
         const inputText = document.getElementById('input')

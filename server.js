@@ -4,6 +4,7 @@ import fs from 'fs';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const apiKey = process.env.apiKey; // Используем переменную окружения для API-ключа
 
 app.use(express.json());
 
@@ -14,7 +15,6 @@ app.use((req, res, next) => {
 });
 
 app.get('/search', async (req, res) => {
-    const apiKey = 'f5f69bfaf277050667fd882a1bae55f31926e65bb955f696e7b149401ab825b4';
     const query = req.query.q || 'OpenAI';
 
     try {
@@ -22,7 +22,8 @@ app.get('/search', async (req, res) => {
         const data = await response.json();
         res.json(data);
     } catch (error) {
-        res.status(500).json({ error: 'error while making a request' });
+        console.error('Error while making a request:', error);
+        res.status(500).json({ error: 'Error while making a request' });
     }
 });
 
@@ -44,5 +45,5 @@ app.post('/save', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is runing`);
+    console.log(`Server is running on port ${PORT}`);
 });
