@@ -34,6 +34,10 @@ app.get('/search', async (req, res) => {
 app.post('/save', (req, res) => {
     const { organicResults, query } = req.body;
 
+    if (!organicResults || !query) {
+        return res.status(400).json({ error: 'Invalid request data' });
+    }
+
     const safeQuery = query.replace(/[^a-zA-Z0-9_-]/g, '_');
     const fileName = `${safeQuery}.json`;
 
@@ -47,6 +51,8 @@ app.post('/save', (req, res) => {
         }
     });
 });
+
+app.get('/favicon.ico', (req, res) => res.status(204));
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
