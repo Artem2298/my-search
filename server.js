@@ -35,7 +35,10 @@ app.post('/save', (req, res) => {
     fs.writeFile(fileName, JSON.stringify(organicResults, null, 2), (err) => {
         if (err) {
             console.error('Error while saving file:', err);
-            res.status(500).json({ message: 'Error while saving file:' });
+            res.status(500).json({ message: 'Error while saving file' });
+        } else {
+            console.log(`File ${fileName} saved successfully.`);
+            res.json({ message: `File ${fileName} saved successfully.` });
         }
     });
 });
