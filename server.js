@@ -4,7 +4,7 @@ import fs from 'fs';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const apiKey = process.env.apiKey; // Используем переменную окружения для API-ключа
+const apiKey = process.env.apiKey;
 
 app.use(express.json());
 
