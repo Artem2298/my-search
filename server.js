@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import express from 'express';
 import fs from 'fs';
+import path from 'path';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -8,10 +9,10 @@ const apiKey = process.env.apiKey;
 
 app.use(express.json());
 
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
+app.use(express.static(path.join(__dirname)));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'test.html'));
 });
 
 app.get('/search', async (req, res) => {
