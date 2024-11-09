@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Kuznetsov Artem</title>
+
+    <style>
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 60vh;
+        }
+
+        .input-container h1 {
+            margin-bottom: 15px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            width: 30%;
+        }
+
+        .search-wrapper input {
+            width: 80%;
+            height: 35px;
+            padding: 10px 60px 10px 30px;
+            border: 0px;
+            border-radius: 50px;
+            font-size: 16px;
+            background-color: rgb(227, 227, 227);
+        }
+
+        .search-wrapper button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 3vh;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            color: #333;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="input-container">
+        <h1>MY SEARCH</h1>
+        <div class="search-wrapper">
+            <input id="input" type="text" placeholder="Search..">
+            <button type="submit" id="search-button"><i class="fa fa-search"></i></button>
+        </div>
+    </div>
+
+    <script>
+        const apiKey = 'f5f69bfaf277050667fd882a1bae55f31926e65bb955f696e7b149401ab825b4'
+        let query = '';
+        const searchButton = document.getElementById('search-button');
+        const inputText = document.getElementById('input')
+
+
+        searchButton.addEventListener('click', function(event) {
+            const query = inputText.value;
+            
+            if (query === '') {
+                alert('Please fill out the search box')
+            } else {
+                fetch(`http://localhost:3000/search?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const organicResults = data.organic_results;        
+                        
+                        fetch('http://localhost:3000/save', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ organicResults, query })
+                        })
+                        .then(response => response.json())
+                        .then(saveResponse => {
+                            alert(saveResponse.message);
+                        })
+                        .catch(error => console.error('Error with saving file', error));
+                    })
+                    .catch(error => console.error('Error:', error));
+                
+                inputText.value = '';
+            }
+        });
+        
+
+    </script>
+</body>
+</html>
